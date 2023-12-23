@@ -1,0 +1,17 @@
+﻿@if (ViewBag.CustomerNames != null && ViewBag.CustomerNames.Count > 0)
+{
+    <label>Customer Name:</label>
+    <select name="selectedName" id="selectedName">
+        @foreach (var item in ViewBag.Corporate)
+        {
+            <option value="@item.Id">@item.Name</option>
+        }
+    </select>
+}
+else
+{
+    <label>Customer Name:</label>
+    <select name="selectedName" id="selectedName">
+        <option value="">No names available</option>
+    </select>
+}

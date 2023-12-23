@@ -1,0 +1,237 @@
+﻿@model WebApplication2.DB.Products_Service_Tbl
+<form class="mt-5 pl-3 ">
+    <div class="mb-2 p-3">
+        <label>
+            <input type="radio" class="mr-2" name="customerType" value="Corporate" onclick="loadNames('Corporate')" /> Corporate
+        </label>
+        <label class="ml-3">
+            <input type="radio" name="customerType" value="Individual" onclick="loadNames('Individual')" /> Individual
+        </label>
+    </div>
+
+    <div class="row bg-warning">
+        <div class="col-md-6 bg-warning p-3 ">
+            <div class="bg-warning">
+
+                <div id="corporateContainer" class="@ViewBag.CorporateContainerClass">
+                    <div class="form-group">
+                        <label for="selectedNameCorporate">Customer Name:</label>
+                        <select class="form-control" name="selectedName" id="selectedNameCorporate">
+                            @foreach (var item in ViewBag.Corporate)
+                            {
+                                <option value="@item.Name">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div id="individualContainer" class="@ViewBag.IndividualContainerClass">
+                    <div class="form-group">
+                        <label for="selectedNameIndividual">Customer Name:</label>
+                        <select class="form-control" name="selectedName" id="selectedNameIndividual">
+                            @foreach (var item in ViewBag.Individual)
+                            {
+                                <option value="@item.Name">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="meetingDate">Date:</label>
+                            <input type="date" class="form-control" name="meetingDate" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="meetingTime">Time:</label>
+                            <input type="time" class="form-control" name="meetingTime" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="meetingPlace">Meeting Place:</label>
+                    <input placeholder="meeting place" type="text" class="form-control" name="meetingPlace" />
+                </div>
+
+                <div class="form-group">
+                    <label for="clientAttends">Attends from client side:</label>
+                    <textarea placeholder="Present Client side" class="form-control" name="clientAttends"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="hostAttends">Attends from Host side:</label>
+                    <textarea placeholder="Present Server Side" class="form-control" name="hostAttends"></textarea>
+                </div>
+                <hr />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mt-5">
+                <div class="form-group">
+                    <label for="meetingAgenda">Meeting Agenda:</label>
+                    <textarea placeholder="Meeting Agenda" class="form-control" name="meetingAgenda"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="meetingDiscussion">Meeting Discussion:</label>
+                    <textarea placeholder="Meeting Discussion" class="form-control" name="meetingDiscussion"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="meetingDecision">Meeting Decision:</label>
+                    <textarea placeholder="Meeting Decision" class="form-control" name="meetingDecision"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name)
+        <select class="form-control" name="selected" id="selected">
+            @foreach (var item in ViewBag.productsServices)
+            {
+                <option value="@item.Name">@item.Name</option>
+            }
+        </select>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-3">
+            @Html.LabelFor(model => model.Unit, "Unit")
+            <input placeholder="Unit" type="text" class="form-control" id="Unit" readonly name="Unit" />
+        </div>
+
+        <div class="form-group col-md-3">
+            @Html.LabelFor(model => model.Quantity, "Quantity")
+            <input placeholder="Quantity" type="text" class="form-control" id="Quantity" name="Quantity" />
+        </div>
+    </div>
+    <button type="button" class="btn btn-success" onclick="addRow();">Add to Table</button>
+    <hr />
+
+    <table class="table" id="productTable">
+        <thead>
+            <tr>
+                <th>Product/Service</th>
+                <th>Unit</th>
+                <th>Quantity</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <hr />
+
+    <button type="button" class="btn btn-success" onclick="saveMeetingMinutes()" id="saveButton">Save</button>
+
+</form>
+
+<script>
+ function loadUnit(product) {
+    return $.ajax({
+        url: '@Url.Action("GetUnit", "Home")',
+        type: 'GET',
+        data: { Name: product },
+        dataType: 'json',
+    });
+}
+
+    function addRow() {
+        var selectedOption = $("#selected");
+        var product = selectedOption.val();
+        console.log("Selected Product: " + product);
+
+        loadUnit(product).done(function (unit) {
+            console.log("Unit Value:", unit);
+
+            var quantity = $("#Quantity").val();
+
+            var newRow = "<tr><td>" + product + "</td><td>" + unit + "</td><td>" + quantity + "</td>" +
+                "<td><button type='button' class='btn btn-info btn-sm' onclick='editRow(this);'>Edit</button></td>" +
+                "<td><button type='button' class='btn btn-danger btn-sm' onclick='deleteRow(this);'>Delete</button></td></tr>";
+            $("#productTable tbody").append(newRow);
+
+            selectedOption.val('');
+            $("#Unit").val('');
+            $("#Quantity").val('');
+        }).fail(function () {
+            console.log("Error fetching unit information.");
+        });
+    }
+
+    function editRow(button) {
+        var row = $(button).closest('tr');
+        var product = row.find('td:eq(0)').text();
+        var unit = row.find('td:eq(1)').text();
+        var quantity = row.find('td:eq(2)').text();
+
+        $("#selected").val(product);
+        $("#Unit").val(unit);
+        $("#Quantity").val(quantity);
+
+        row.remove();
+    }
+
+    function deleteRow(button) {
+        var row = $(button).closest('tr');
+        row.remove();
+    }
+
+    function loadNames(customerType) {
+        if (customerType === 'Corporate') {
+            $('#corporateContainer').removeClass('hidden');
+            $('#individualContainer').addClass('hidden');
+        } else if (customerType === 'Individual') {
+            $('#corporateContainer').addClass('hidden');
+            $('#individualContainer').removeClass('hidden');
+        }
+    }
+    function saveMeetingMinutes() {
+    var meetingData = {
+        
+        customerType: $("input[name='customerType']:checked").val(),
+        meetingDate: $("input[name='meetingDate']").val(),
+        meetingTime: $("input[name='meetingTime']").val(),
+        meetingPlace: $("input[name='meetingPlace']").val(),
+        clientAttends: $("textarea[name='clientAttends']").val(),
+        hostAttends: $("textarea[name='hostAttends']").val(),
+       
+        products: []
+    };
+
+        console.log(meetingData);
+    $("#productTable tbody tr").each(function () {
+        var productRow = $(this);
+        var product = {
+            name: productRow.find('td:eq(0)').text(),
+            unit: productRow.find('td:eq(1)').text(),
+            quantity: productRow.find('td:eq(2)').text()
+        };
+        meetingData.products.push(product);
+    });
+
+    
+    $.ajax({
+        url: '@Url.Action("SaveMeetingMinutes", "Home")', 
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(meetingData),
+        success: function (response) {
+            console.log("Meeting minutes saved successfully");
+        },
+        error: function () {
+            console.log("Error saving meeting minutes");
+        }
+    });
+}
+
+
+
+</script>

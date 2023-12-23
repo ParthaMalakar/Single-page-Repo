@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MeetingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Corporate_Customer_Tbl">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="Individual_Customer_Tbl">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="Products_Service_Tbl">
+    <Key>
+      <PropertyRef Name="ProductServiceId" />
+    </Key>
+    <Property Name="ProductServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Meeting_Minutes_Details_Tbl">
+    <Key>
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="Unit" />
+      <PropertyRef Name="Quantity" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Meeting_Minutes_Master_Tbl">
+    <Key>
+      <PropertyRef Name="CustomerType" />
+      <PropertyRef Name="MeetingDate" />
+      <PropertyRef Name="MeetingTime" />
+      <PropertyRef Name="MeetingPlace" />
+      <PropertyRef Name="ClientAttends" />
+      <PropertyRef Name="HostAttends" />
+    </Key>
+    <Property Name="CustomerType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="MeetingDate" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="MeetingTime" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="MeetingPlace" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ClientAttends" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="HostAttends" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="MeetingEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Corporate_Customer_Tbl" EntityType="Self.Corporate_Customer_Tbl" />
+    <EntitySet Name="Individual_Customer_Tbl" EntityType="Self.Individual_Customer_Tbl" />
+    <EntitySet Name="Products_Service_Tbl" EntityType="Self.Products_Service_Tbl" />
+    <EntitySet Name="Meeting_Minutes_Details_Tbl" EntityType="Self.Meeting_Minutes_Details_Tbl" />
+    <EntitySet Name="Meeting_Minutes_Master_Tbl" EntityType="Self.Meeting_Minutes_Master_Tbl" />
+  </EntityContainer>
+</Schema>

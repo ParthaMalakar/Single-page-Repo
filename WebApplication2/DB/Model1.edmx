@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MeetingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Corporate_Customer_Tbl">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Individual_Customer_Tbl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Meeting.dbo.Meeting_Minutes_Details_Tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Meeting_Minutes_Details_Tbl">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Unit" />
+            <PropertyRef Name="Quantity" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Unit" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Meeting.dbo.Meeting_Minutes_Master_Tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Meeting_Minutes_Master_Tbl">
+          <Key>
+            <PropertyRef Name="CustomerType" />
+            <PropertyRef Name="MeetingDate" />
+            <PropertyRef Name="MeetingTime" />
+            <PropertyRef Name="MeetingPlace" />
+            <PropertyRef Name="ClientAttends" />
+            <PropertyRef Name="HostAttends" />
+          </Key>
+          <Property Name="CustomerType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MeetingDate" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="MeetingTime" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="MeetingPlace" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="ClientAttends" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="HostAttends" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products_Service_Tbl">
+          <Key>
+            <PropertyRef Name="ProductServiceId" />
+          </Key>
+          <Property Name="ProductServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Unit" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityContainer Name="MeetingModelStoreContainer">
+          <EntitySet Name="Corporate_Customer_Tbl" EntityType="Self.Corporate_Customer_Tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Individual_Customer_Tbl" EntityType="Self.Individual_Customer_Tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products_Service_Tbl" EntityType="Self.Products_Service_Tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Meeting_Minutes_Details_Tbl" EntityType="Self.Meeting_Minutes_Details_Tbl" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Meeting_Minutes_Details_Tbl].[Name] AS [Name], 
+    [Meeting_Minutes_Details_Tbl].[Unit] AS [Unit], 
+    [Meeting_Minutes_Details_Tbl].[Quantity] AS [Quantity]
+    FROM [dbo].[Meeting_Minutes_Details_Tbl] AS [Meeting_Minutes_Details_Tbl]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Meeting_Minutes_Master_Tbl" EntityType="Self.Meeting_Minutes_Master_Tbl" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Meeting_Minutes_Master_Tbl].[CustomerType] AS [CustomerType], 
+    [Meeting_Minutes_Master_Tbl].[MeetingDate] AS [MeetingDate], 
+    [Meeting_Minutes_Master_Tbl].[MeetingTime] AS [MeetingTime], 
+    [Meeting_Minutes_Master_Tbl].[MeetingPlace] AS [MeetingPlace], 
+    [Meeting_Minutes_Master_Tbl].[ClientAttends] AS [ClientAttends], 
+    [Meeting_Minutes_Master_Tbl].[HostAttends] AS [HostAttends]
+    FROM [dbo].[Meeting_Minutes_Master_Tbl] AS [Meeting_Minutes_Master_Tbl]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MeetingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Corporate_Customer_Tbl">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Individual_Customer_Tbl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Products_Service_Tbl">
+          <Key>
+            <PropertyRef Name="ProductServiceId" />
+          </Key>
+          <Property Name="ProductServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Meeting_Minutes_Details_Tbl">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Unit" />
+            <PropertyRef Name="Quantity" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Meeting_Minutes_Master_Tbl">
+          <Key>
+            <PropertyRef Name="CustomerType" />
+            <PropertyRef Name="MeetingDate" />
+            <PropertyRef Name="MeetingTime" />
+            <PropertyRef Name="MeetingPlace" />
+            <PropertyRef Name="ClientAttends" />
+            <PropertyRef Name="HostAttends" />
+          </Key>
+          <Property Name="CustomerType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MeetingDate" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MeetingTime" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MeetingPlace" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClientAttends" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HostAttends" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="MeetingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Corporate_Customer_Tbl" EntityType="Self.Corporate_Customer_Tbl" />
+          <EntitySet Name="Individual_Customer_Tbl" EntityType="Self.Individual_Customer_Tbl" />
+          <EntitySet Name="Products_Service_Tbl" EntityType="Self.Products_Service_Tbl" />
+          <EntitySet Name="Meeting_Minutes_Details_Tbl" EntityType="Self.Meeting_Minutes_Details_Tbl" />
+          <EntitySet Name="Meeting_Minutes_Master_Tbl" EntityType="Self.Meeting_Minutes_Master_Tbl" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MeetingModelStoreContainer" CdmEntityContainer="MeetingEntities">
+          <EntitySetMapping Name="Corporate_Customer_Tbl">
+            <EntityTypeMapping TypeName="MeetingModel.Corporate_Customer_Tbl">
+              <MappingFragment StoreEntitySet="Corporate_Customer_Tbl">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Individual_Customer_Tbl">
+            <EntityTypeMapping TypeName="MeetingModel.Individual_Customer_Tbl">
+              <MappingFragment StoreEntitySet="Individual_Customer_Tbl">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products_Service_Tbl">
+            <EntityTypeMapping TypeName="MeetingModel.Products_Service_Tbl">
+              <MappingFragment StoreEntitySet="Products_Service_Tbl">
+                <ScalarProperty Name="ProductServiceId" ColumnName="ProductServiceId" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Meeting_Minutes_Details_Tbl">
+            <EntityTypeMapping TypeName="MeetingModel.Meeting_Minutes_Details_Tbl">
+              <MappingFragment StoreEntitySet="Meeting_Minutes_Details_Tbl">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Meeting_Minutes_Master_Tbl">
+            <EntityTypeMapping TypeName="MeetingModel.Meeting_Minutes_Master_Tbl">
+              <MappingFragment StoreEntitySet="Meeting_Minutes_Master_Tbl">
+                <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
+                <ScalarProperty Name="MeetingDate" ColumnName="MeetingDate" />
+                <ScalarProperty Name="MeetingTime" ColumnName="MeetingTime" />
+                <ScalarProperty Name="MeetingPlace" ColumnName="MeetingPlace" />
+                <ScalarProperty Name="ClientAttends" ColumnName="ClientAttends" />
+                <ScalarProperty Name="HostAttends" ColumnName="HostAttends" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
